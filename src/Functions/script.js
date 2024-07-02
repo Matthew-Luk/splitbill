@@ -35,3 +35,23 @@ export function convert(index, name) {
   }
   return map
 }
+
+export function listOfNames(e) {
+  if (e.length === 1) {
+    return capitalize(e[0])
+  } else if (e.length === 2) {
+    return `${capitalize(e[0])} & ${capitalize(e[1])}`
+  } else {
+    let arr = []
+    for (let i = 0; i < e.length; i++) {
+      if (i === e.length - 1) {
+        arr.push(`& ${capitalize(e[i])}`)
+      } else if (i === e.length - 2) {
+        arr.push(capitalize(e[i]))
+      } else {
+        arr.push(`${capitalize(e[i])},`)
+      }
+    }
+    return arr.join(" ")
+  }
+}

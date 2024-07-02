@@ -28,7 +28,7 @@ const Home = (props) => {
     setSearchName("")
   }
 
-  console.log(nameList)
+  // console.log(nameList)
 
   const increment = (e) => {
     setIndex(idx => idx + 1)
@@ -80,7 +80,7 @@ const Home = (props) => {
           </form>
         </div>
         <div className={`content ${toggle === 2 ? "activeContent" : "displayNone"}`}>
-          <Receipt nameList={nameList} setNameList={setNameList}/>
+          <Receipt nameList={nameList} setNameList={setNameList} error={error} setError={setError} />
         </div>
       </div>
     </div>

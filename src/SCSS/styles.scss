@@ -54,17 +54,23 @@ $primaryBGC: #E5E4E2;
   flex-direction: column;
   align-items: center;
   .content {
-    width: 23rem;
+    width: 40rem;
+    .listHeader {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
     .list {
       display: flex;
-      width: 100%;
+      width: 24rem;
       height: 30rem;
       flex-direction: column;
       align-items: flex-start;
       gap: 1.2rem;
+      margin-top: 2.4rem;
     }
     form {
-      width: 100%;
+      width: 24rem;
       display: flex;
       flex-direction: column;
       gap: 1.2rem;
@@ -77,7 +83,7 @@ $primaryBGC: #E5E4E2;
         }
       }
       .buttons {
-        width: 100%;
+        width: 23rem;
         display: flex;
         justify-content: center;
         button {
