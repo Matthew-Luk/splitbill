@@ -19,16 +19,15 @@ const Home = (props) => {
     if (result === true) {
       const input = convert(index, name)
       setNameList([...nameList, input])
+      increment(index)
+      localStorage.setItem("savedIndex", JSON.stringify(index))
       localStorage.setItem("savedNameList", JSON.stringify([...nameList, input]))
       setError("")
-      increment(index)
     } else {
       setError(result)
     }
     setSearchName("")
   }
-
-  // console.log(nameList)
 
   const increment = (e) => {
     setIndex(idx => idx + 1)
@@ -46,12 +45,17 @@ const Home = (props) => {
 
   const toggleTab = (e) => {
     setToggle(e)
+    setError("")
   }
 
   useEffect(() => {
     const retArr = JSON.parse(localStorage.getItem("savedNameList"))
+    const newIndex = JSON.parse(localStorage.getItem("savedIndex")) + 1
+    console.log(newIndex)
     if (retArr) {
       setNameList(retArr)
+    } if (newIndex) {
+      setIndex(newIndex)
     }
   }, [setNameList])
 
@@ -80,7 +84,7 @@ const Home = (props) => {
           </form>
         </div>
         <div className={`content ${toggle === 2 ? "activeContent" : "displayNone"}`}>
-          <Receipt nameList={nameList} setNameList={setNameList} error={error} setError={setError} />
+          <Receipt nameList={nameList} setNameList={setNameList} error={error} setError={setError} index={index}/>
         </div>
       </div>
     </div>

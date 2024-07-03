@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { capitalize, listOfNames } from '../Functions/script'
+import { capitalize, listOfNames, addNamesToOweList } from '../Functions/script'
 
 const Receipt = (props) => {
-  const { nameList, setNameList, error, setError } = props
+  const { nameList, setNameList, error, setError, index } = props
   const [toggle, setToggle] = useState(1)
   const [paylist, setPaylist] = useState([])
   const [owelist, setOwelist] = useState([])
@@ -44,17 +44,27 @@ const Receipt = (props) => {
       setError("Please select at least 1 person.")
       e.preventDefault()
       return
+    } else if (toggle === 2) {
+      if (owelist.length === 0) {
+        setError("Please select at least 1 person.")
+        e.preventDefault()
+        return
+      } else {
+        addNamesToOweList(nameList, owelist, index)
+      }
     }
     e.preventDefault()
+    setError("")
     setToggle(num => num + 1)
   }
 
   const toggleDown = (e) => {
     e.preventDefault()
+    setError("")
     setToggle(num => num - 1)
   }
 
-  console.log(paylist, owelist, templist)
+  console.log(nameList, paylist, owelist, templist, index)
 
   return (
     <form className='contentSection'>
@@ -102,11 +112,11 @@ const Receipt = (props) => {
         <div className='listHeader'>How did you want to split the bill?</div>
         <div className='list'>
           <label className='label'>
-            <input type="checkbox" value={nameList.length + 1} onChange={submit2} />
+            <input type="radio" name='question' value={nameList.length + 1} />
             <p>Evenly</p>
           </label>
           <label className='label'>
-            <input type="checkbox" value={nameList.length + 1} onChange={submit2} />
+            <input type="radio" name='question' value={nameList.length + 1} />
             <p>Itemized</p>
           </label>
         </div>

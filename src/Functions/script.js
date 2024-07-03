@@ -55,3 +55,7 @@ export function listOfNames(e) {
     return arr.join(" ")
   }
 }
+
+export function addNamesToOweList(names, owe, index) {
+  console.log(names, owe, index)
+}
