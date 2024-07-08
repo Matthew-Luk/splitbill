@@ -1,27 +1,28 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 import { validate, capitalize, convert } from '../Functions/script'
 import '../SCSS/styles.scss'
 import Receipt from './Receipt'
 
 const Home = (props) => {
-  const { nameList, setNameList } = props
+  const { namelist, setNamelist } = props
   const [searchName, setSearchName] = useState("")
   const [error, setError] = useState("")
   const [toggle, setToggle] = useState(1)
   const [index, setIndex] = useState(1)
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   const addName = (e) => {
     e.preventDefault()
     const name = e.target[0].value.toLowerCase()
-    const result = validate(nameList, name)
+    const result = validate(namelist, name)
     if (result === true) {
       const input = convert(index, name)
-      setNameList([...nameList, input])
+      setNamelist([...namelist, input])
       increment(index)
       localStorage.setItem("savedIndex", JSON.stringify(index))
-      localStorage.setItem("savedNameList", JSON.stringify([...nameList, input]))
+      localStorage.setItem("savedNamelist", JSON.stringify([...namelist, input]))
+      localStorage.setItem("savedToggle1", JSON.stringify(1))
       setError("")
     } else {
       setError(result)
@@ -29,7 +30,7 @@ const Home = (props) => {
     setSearchName("")
   }
 
-  const increment = (e) => {
+  const increment = () => {
     setIndex(idx => idx + 1)
   }
 
@@ -45,19 +46,25 @@ const Home = (props) => {
 
   const toggleTab = (e) => {
     setToggle(e)
+    localStorage.setItem("savedToggle1", JSON.stringify(e))
     setError("")
   }
 
   useEffect(() => {
-    const retArr = JSON.parse(localStorage.getItem("savedNameList"))
+    const newArr = JSON.parse(localStorage.getItem("savedNamelist"))
     const newIndex = JSON.parse(localStorage.getItem("savedIndex")) + 1
-    console.log(newIndex)
-    if (retArr) {
-      setNameList(retArr)
+    const newToggle = JSON.parse(localStorage.getItem("savedToggle1"))
+    if (newArr) {
+      setNamelist(newArr)
     } if (newIndex) {
       setIndex(newIndex)
+    } if (newToggle !== 1) {
+      setToggle(newToggle)
+    } if (newToggle === null) {
+      setToggle(1)
     }
-  }, [setNameList])
+  }, [setNamelist])
+
 
   return (
     <div className='container'>
@@ -70,13 +77,13 @@ const Home = (props) => {
           <div className={`error ${error ? "" : "colorWhite"}`}>{error}</div>
           <div className='list'>
             {
-              nameList.map((item, index) => (
+              namelist.map((item, index) => (
                 <p key={index}>{index + 1}. {capitalize(item.name)}</p>
               ))
             }
           </div>
           <form onSubmit={addName}>
-            <input type="text" placeholder='Name...' onChange={updateSearchValue} value={searchName} />
+            <input className='input1' type="text" placeholder='Name...' onChange={updateSearchValue} value={searchName} />
             <div className='buttons'>
               <button type='submit'>Add</button>
               <button onClick={clearLocalStorage}>Clear all</button>
@@ -84,7 +91,7 @@ const Home = (props) => {
           </form>
         </div>
         <div className={`content ${toggle === 2 ? "activeContent" : "displayNone"}`}>
-          <Receipt nameList={nameList} setNameList={setNameList} error={error} setError={setError} index={index}/>
+          <Receipt namelist={namelist} setNamelist={setNamelist} error={error} setError={setError} index={index} />
         </div>
       </div>
     </div>
