@@ -4,13 +4,13 @@ import { useState } from 'react';
 import Home from './Components/Home';
 
 function App() {
-  const [ nameList, setNameList ] = useState([])
+  const [ namelist, setNamelist ] = useState([])
 
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Home nameList={nameList} setNameList={setNameList}/>}/>
+          <Route path='/' element={<Home namelist={namelist} setNamelist={setNamelist}/>}/>
         </Routes>
       </BrowserRouter>
     </div>
